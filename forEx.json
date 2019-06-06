@@ -1,7 +1,9 @@
 {
     "portfolio":[
     {
+    
     "id": 1,
+    "name": "John Doe",
     "usd": 1000.00,
     "jpy": 0,
     "eur": 0,

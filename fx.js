@@ -1,6 +1,7 @@
 window.onload = function(){
  
-    getPortfolio()
+    getPortfolio();
+    getForEx();
 
 }
 
@@ -32,6 +33,10 @@ function getPortfolio(){
 
 }
 
+function getForEx(){
+
+
+
 
 // AJAX GET request to ForEx API
 var xhr = new XMLHttpRequest();
@@ -44,16 +49,21 @@ xhr.onreadystatechange = function(){
         console.log(currencyDataJPY);
         
         // DOM MANIPULATION
-e
+        console.log(currencyDataJPY.rates.JPY)
+        $("#jpyEx").append(currencyDataJPY.rates.JPY);
+        $("#eurEx").append(currencyDataJPY.rates.EUR);
+        $("#gbpEx").append(currencyDataJPY.rates.GBP);
+
     }else{
         console.log("Error: JPY data not found")
     }
 
 }
     // FIND API URL FOR JPY CURRENCY EXCHANGE
- xhr.open("GET", "");
+ xhr.open("GET", "https://api.exchangeratesapi.io/latest?base=USD");
  xhr.send();
 
+}
 
 //  LOGIC FOR Buying Forex
 // -  x(how much you want to buy in USD) * JPY = y (ammount purchased JPY)

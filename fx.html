@@ -30,7 +30,7 @@
                             Hello!
                         </div>
                         <div id="USD">
-                            USD
+                            
                         </div>
                         <div id="jpy">
                             JPY
@@ -45,27 +45,30 @@
                 </div>
 
                 <div class="col-4">
-                    <div id="jpyEx">
-                        <h3>jpyEx</h3>
+                    <div>
+                        <h3>jpyEx: <span id="jpyEx"></span></h3>
                     </div>
-                    <div id="eurEx">
-                            <h3>eurEx</h3>
+                    <div>
+                        <h3>eurEx: <span id="eurEx"></span></h3>
                     </div>
-                    <div id="gbpEx">
-                            <h3>gbpEx</h3>
+                    <div>
+                        <h3>gbpEx: <span id="gbpEx"></span></h3>
                     </div>
                 </div>
                 <div class="col-4">
-                        <input type="text" id="buyOrSellInputJPY" placeholder="buyOrSellInputJPY" class="form-control col-4">
-                        <button type="button" class="btn btn-success">Buy</button>
-                        <button type="button" class="btn btn-danger">Sell</button>
-                        <input type="text" id="buyOrSellInputEUR" placeholder="buyOrSellInputEUR" class="form-control col-4">
-                        <button type="button" class="btn btn-success">Buy</button>
-                        <button type="button" class="btn btn-danger">Sell</button>
-                        <input type="text" id="buyOrSellInputGBP" placeholder="buyOrSellInputGBP" class="form-control col-4">
-                        <button type="button" class="btn btn-success">Buy</button>
-                        <button type="button" class="btn btn-danger">Sell</button>
-                    </div>
+                    <input type="text" id="buyOrSellInputJPY" placeholder="buyOrSellInputJPY"
+                        class="form-control col-4">
+                    <button type="button" id="buyJPY" class="btn btn-success">Buy</button>
+                    <button type="button" id="sellJPY" class="btn btn-danger">Sell</button>
+                    <input type="text" id="buyOrSellInputEUR" placeholder="buyOrSellInputEUR"
+                        class="form-control col-4">
+                    <button type="button" id="buyEUR" class="btn btn-success">Buy</button>
+                    <button type="button" id="sellEUR" class="btn btn-danger">Sell</button>
+                    <input type="text" id="buyOrSellInputGBP" placeholder="buyOrSellInputGBP"
+                        class="form-control col-4">
+                    <button type="button" id="buyGBP" class="btn btn-success">Buy</button>
+                    <button type="button" id="sellGBP" class="btn btn-danger">Sell</button>
+                </div>
             </div>
 
         </div>

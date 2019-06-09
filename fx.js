@@ -9,11 +9,17 @@ window.onload = function () {
             console.log(lastID);
             lastEntry = portfolioData[portfolioData.length-1];
             console.log(lastEntry.usd);
-            $("#usd").append(portfolioData.usd);
-            $("#jpy").append(portfolioData.jpy);
-            $("#eur").append(portfolioData.eur); 
-            $("#gbp").append(portfolioData.gbp);
+            // Display /DOM MANIPULATION TO SHOW PORTFOLIO
+            $("#usd").append(lastEntry.usd);
+            $("#jpy").append(lastEntry.jpy);
+            $("#eur").append(lastEntry.eur); 
+            $("#gbp").append(lastEntry.gbp);
             
+            // EVENT LISTENERS FOR BUTTONS
+            $("#buyJPY").on('click', buyJPY);
+
+            // GET Request to Exchange Rate API (might need to make request within window.onLoad function, not xhr.onreadystate)
+            getForEx();
 
         }
     }
@@ -28,9 +34,46 @@ window.onload = function () {
 }
 
 
+function buyJPY(){
+    let buyJPYammountStr = $("#buyOrSellInputJPY").val();
+    console.log("buyJPY button clicked");
+    console.log("USD Spent = " + buyJPYammountStr);
+    console.log("USD => JPY = "+ currencyData.rates.JPY);
+    var newUSD = lastEntry.usd - buyJPYammountStr;
+    console.log("New USD = " + newUSD);
+
+    // AJAX Post or Put Request to forex.json
+ 
 
 
 
+}
+
+
+
+
+function getForEx() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            console.log('READY');
+            currencyData = JSON.parse(xhr.responseText);
+
+            // console.log(currencyDataJPY);
+            // DOM MANIPULATION
+            // console.log(currencyData.rates.JPY)
+            $("#jpyEx").html(currencyData.rates.JPY);
+            $("#eurEx").html(currencyData.rates.EUR);
+            $("#gbpEx").html(currencyData.rates.GBP);
+        } 
+
+        // $("#buyJPY").on("click", buyJPY)
+        // $("#buyEUR").on("click", buyEUR)
+        // $("#buyGBP").on("click", buyGBP)
+    }
+    xhr.open("GET", "https://api.exchangeratesapi.io/latest?base=USD");
+    xhr.send();
+}
 
 
 
@@ -181,7 +224,7 @@ window.onload = function () {
 
 // }
 
-// // AJAX GET request to ForEx API
+// AJAX GET request to ForEx API
 // function getForEx() {
 //     var xhr = new XMLHttpRequest();
 //     xhr.onreadystatechange = function () {

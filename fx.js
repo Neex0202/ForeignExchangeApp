@@ -69,9 +69,15 @@ function buyJPY(){
         gbp: parseFloat(lastEntry.gbp)
 
     }
-
-    console.log('objJPY', objJPY);
     
+    console.log('objJPY', objJPY);
+
+    post(objJPY);
+    
+
+}
+
+function post(payload) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -83,26 +89,31 @@ function buyJPY(){
 
                 // What do when the request is successful
                 let resp =  JSON.parse(xhr.responseText);
-                // update last entry with response
-                lastEntry = resp;
-                console.log('RESP', resp);
-                $("#usd").html('USD ' + resp.usd);
-                $("#jpy").html('JPY ' + resp.jpy);
-                $("#eur").html('EUR ' + resp.eur);
-                $("#gbp").html('GBP ' + resp.gbp);
+
+                // update DOM
+                updateDOM(resp);
+
+
             }
             // console.log('buyJPY RESP', data.response);
 
-            // getUSD();
-            // getForEx();           
         } 
     }
 
     xhr.open("POST", "http://localhost:3000/portfolio");
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(objJPY));
-    // getForEx();  
+    xhr.send(JSON.stringify(payload));
+}
 
+function updateDOM(resp) {
+    // update last entry with response
+    lastEntry = resp;
+
+    console.log('RESP', resp);
+    $("#usd").html('USD ' + resp.usd);
+    $("#jpy").html('JPY ' + resp.jpy);
+    $("#eur").html('EUR ' + resp.eur);
+    $("#gbp").html('GBP ' + resp.gbp);
 }
 
 function sellJPY(){
@@ -129,35 +140,7 @@ function sellJPY(){
 
     }
     
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            console.log(xhr.status);
-            console.log("POST request sent");
-
-            //  update dom with response
-            if (xhr.status >= 200 && xhr.status < 300) {
-
-                // What do when the request is successful
-                let resp =  JSON.parse(xhr.responseText);
-                console.log('RESP', resp);
-                $("#usd").html('USD ' + resp.usd);
-                $("#jpy").html('JPY ' + resp.jpy);
-                $("#eur").html('EUR ' + resp.eur);
-                $("#gbp").html('GBP ' + resp.gbp);
-            }
-            // console.log('buyJPY RESP', data.response);
-
-            // getUSD();
-            // getForEx();           
-        } 
-    }
-
-    xhr.open("POST", "http://localhost:3000/portfolio");
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.send(JSON.stringify(objJPY));
-    // getForEx();  
-
+    post(objJPY);
 }
 
 

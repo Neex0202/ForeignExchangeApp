@@ -75,15 +75,15 @@ function getForEx() {
 
 
 function buyJPY(){
-    let buyGBPammount = parseFloat($("#buyOrSellInputJPY").val());
+    let buyJPYammount = parseFloat($("#buyOrSellInputJPY").val());
     console.log("buyJPY button clicked");
-    console.log("USD Spent = " + buyGBPammount);
+    console.log("USD Spent = " + buyJPYammount);
     let gbpExRate =  currencyData.rates.JPY
     console.log("USD => JPY = "+ gbpExRate);
-    let newUSD = lastEntry.usd - buyGBPammount;
+    let newUSD = lastEntry.usd - buyJPYammount;
     console.log("New USD = " + newUSD);
 
-    let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyGBPammount) * gbpExRate)).toFixed(2);
+    let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyJPYammount) * gbpExRate)).toFixed(2);
 
     console.log('NEW JPY = ' + newJPY);
 
@@ -182,19 +182,19 @@ function buyEUR(){
     let buyEURammount = parseFloat($("#buyOrSellInputEUR").val());
     console.log("buyEUR button clicked");
     console.log("USD Spent = " + buyEURammount);
-    let eurExRate =  currencyData.rates.EUR;
-    console.log("USD => EUR = "+ eurExRate);
+    let gbpExRate =  currencyData.rates.EUR;
+    console.log("USD => EUR = "+ gbpExRate);
     let newUSD = lastEntry.usd - buyEURammount;
     console.log("New USD = " + newUSD);
 
-    let newEUR = (parseFloat(lastEntry.eur) + parseFloat((buyEURammount) * eurExRate)).toFixed(2);
+    let newGBP = (parseFloat(lastEntry.eur) + parseFloat((buyEURammount) * gbpExRate)).toFixed(2);
 
-    console.log('NEW JPY = ' + newEUR);
+    console.log('NEW JPY = ' + newGBP);
 
     var objJPY = {
         usd: parseFloat(newUSD),
         jpy: parseFloat(lastEntry.jpy),
-        eur: parseFloat(newEUR).toFixed(2),
+        eur: parseFloat(newGBP),
         gbp: parseFloat(lastEntry.gbp),
         time: new Date().getTime()
 
@@ -208,18 +208,18 @@ function buyEUR(){
 
 
 function sellEUR(){
-    let sellEURammountStr = parseFloat($("#buyOrSellInputEUR").val());
+    let sellGBPammounts = parseFloat($("#buyOrSellInputEUR").val());
     // console.log(sellJPYammountStr);
     console.log("sellJPY button clicked");
     
-    console.log("EUR sold = " + sellEURammountStr);
-    let eurExRate =  currencyData.rates.EUR
-    console.log("EUR => USD "+ eurExRate);
-    let newEUR = lastEntry.eur - sellEURammountStr;
+    console.log("EUR sold = " + sellGBPammounts);
+    let gbpExRate =  currencyData.rates.EUR
+    console.log("EUR => USD "+ gbpExRate);
+    let newGBP = lastEntry.eur - sellGBPammounts;
 
-    console.log("New EUR = " + newEUR);
+    console.log("New EUR = " + newGBP);
     // let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyGBPammount) * gbpExRate)).toFixed(2);
-    let newUSD = (parseFloat(lastEntry.usd) + parseFloat((sellEURammountStr) / eurExRate)).toFixed(2);
+    let newUSD = (parseFloat(lastEntry.usd) + parseFloat((sellGBPammounts) / gbpExRate)).toFixed(2);
 
     // AJAX Post or Put Request to forex.json
     // perform AJAX POST to forEx.json
@@ -227,7 +227,7 @@ function sellEUR(){
     var objJPY = {
         usd: parseFloat(newUSD),
         jpy: parseFloat(lastEntry.jpy),
-        eur: parseFloat(newEUR),
+        eur: parseFloat(newGBP),
         gbp: parseFloat(lastEntry.gbp),
         time: new Date().getTime()
 
@@ -271,6 +271,8 @@ function buyGBP(){
     
 
 }
+
+
 
 
 

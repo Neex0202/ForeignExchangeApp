@@ -1,14 +1,24 @@
+// GLOBAL VARS
+let portfolio;
+
+
 window.onload = function () {
 
     var xhr = new XMLHttpRequest;
     xhr.onreadystatechange = function(portfolioData){
+
+        
         if (xhr.readyState == 4){
             portfolioData = JSON.parse(xhr.responseText);
+
+            console.log('PORTFOLIO DATA', portfolioData);
+
             lastID = portfolioData[portfolioData.length-1].id;
-            console.log(portfolioData);
-            console.log(lastID);
+            
             lastEntry = portfolioData[portfolioData.length-1];
-            console.log(lastEntry.usd);
+
+            console.log('LAST DATA', lastEntry);
+            console.log('LAST DATA - usd', lastEntry.usd);
             // Display /DOM MANIPULATION TO SHOW PORTFOLIO
             $("#usd").append(lastEntry.usd);
             $("#jpy").append(lastEntry.jpy);
@@ -17,6 +27,8 @@ window.onload = function () {
             
             // EVENT LISTENERS FOR BUTTONS
             $("#buyJPY").on('click', buyJPY);
+
+            $("#sellJPY").on('click', sellJPY);
 
             // GET Request to Exchange Rate API (might need to make request within window.onLoad function, not xhr.onreadystate)
             getForEx();
@@ -35,20 +47,118 @@ window.onload = function () {
 
 
 function buyJPY(){
-    let buyJPYammountStr = $("#buyOrSellInputJPY").val();
+    let buyJPYammountStr = parseFloat($("#buyOrSellInputJPY").val());
     console.log("buyJPY button clicked");
     console.log("USD Spent = " + buyJPYammountStr);
-    console.log("USD => JPY = "+ currencyData.rates.JPY);
-    var newUSD = lastEntry.usd - buyJPYammountStr;
+    let jpyExRate =  currencyData.rates.JPY
+    console.log("USD => JPY = "+ jpyExRate);
+    let newUSD = lastEntry.usd - buyJPYammountStr;
     console.log("New USD = " + newUSD);
 
+    let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyJPYammountStr) * jpyExRate)).toFixed(2);
+
+    console.log('NEW JPY',newJPY);
+
     // AJAX Post or Put Request to forex.json
- 
+    // perform AJAX POST to forEx.json
+    // update exchange
+    var objJPY = {
+        usd: parseFloat(newUSD),
+        jpy: parseFloat(newJPY),
+        eur: parseFloat(lastEntry.eur),
+        gbp: parseFloat(lastEntry.gbp)
 
+    }
 
+    console.log('objJPY', objJPY);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            console.log(xhr.status);
+            console.log("POST request sent");
+
+            //  update dom with response
+            if (xhr.status >= 200 && xhr.status < 300) {
+
+                // What do when the request is successful
+                let resp =  JSON.parse(xhr.responseText);
+                // update last entry with response
+                lastEntry = resp;
+                console.log('RESP', resp);
+                $("#usd").html('USD ' + resp.usd);
+                $("#jpy").html('JPY ' + resp.jpy);
+                $("#eur").html('EUR ' + resp.eur);
+                $("#gbp").html('GBP ' + resp.gbp);
+            }
+            // console.log('buyJPY RESP', data.response);
+
+            // getUSD();
+            // getForEx();           
+        } 
+    }
+
+    xhr.open("POST", "http://localhost:3000/portfolio");
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(objJPY));
+    // getForEx();  
 
 }
 
+function sellJPY(){
+    let sellJPYammountStr = parseFloat($("#buyOrSellInputJPY").val());
+    console.log(sellJPYammountStr);
+    console.log("sellJPY button clicked");
+    console.log("JPY sold = " + sellJPYammountStr);
+    let jpyExRate =  currencyData.rates.JPY
+    console.log("JPY => USD "+ jpyExRate);
+    let newJPY = lastEntry.jpy - sellJPYammountStr;
+
+    console.log("New JPY = " + newJPY);
+    // let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyJPYammountStr) * jpyExRate)).toFixed(2);
+    let newUSD = (parseFloat(lastEntry.usd) + parseFloat((sellJPYammountStr) / jpyExRate)).toFixed(2);
+
+    // AJAX Post or Put Request to forex.json
+    // perform AJAX POST to forEx.json
+    // update exchange
+    var objJPY = {
+        usd: parseFloat(newUSD),
+        jpy: parseFloat(newJPY),
+        eur: parseFloat(lastEntry.eur),
+        gbp: parseFloat(lastEntry.gbp)
+
+    }
+    
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            console.log(xhr.status);
+            console.log("POST request sent");
+
+            //  update dom with response
+            if (xhr.status >= 200 && xhr.status < 300) {
+
+                // What do when the request is successful
+                let resp =  JSON.parse(xhr.responseText);
+                console.log('RESP', resp);
+                $("#usd").html('USD ' + resp.usd);
+                $("#jpy").html('JPY ' + resp.jpy);
+                $("#eur").html('EUR ' + resp.eur);
+                $("#gbp").html('GBP ' + resp.gbp);
+            }
+            // console.log('buyJPY RESP', data.response);
+
+            // getUSD();
+            // getForEx();           
+        } 
+    }
+
+    xhr.open("POST", "http://localhost:3000/portfolio");
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify(objJPY));
+    // getForEx();  
+
+}
 
 
 
@@ -76,6 +186,15 @@ function getForEx() {
 }
 
 
+//
+//  exchange input
+//
+function exchangeInput(input) {
+
+    //
+    //  
+    //
+}
 
 
 
@@ -270,29 +389,29 @@ function getForEx() {
 //     // xhr.send();
 
 
-//     // perform AJAX POST to forEx.json
-//     var objJPY = {
-//         // WRONG NUMBER
-//         usd: buyJPYammountNum,
-//         // calculate correct exchange ammount
-//         jpy: buyJPYammountNum * currencyData.rates.JPY
+    // // perform AJAX POST to forEx.json
+    // var objJPY = {
+    //     // WRONG NUMBER
+    //     usd: buyJPYammountNum,
+    //     // calculate correct exchange ammount
+    //     jpy: buyJPYammountNum * currencyData.rates.JPY
 
-//     }
+    // }
 
-//     var xhr = new XMLHttpRequest();
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState == 4) {
-//             console.log(xhr.status);
-//             console.log("POST request sent");
-//             getUSD();
-//             // getForEx();           
-//         } 
-//     }
+    // var xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function () {
+    //     if (xhr.readyState == 4) {
+    //         console.log(xhr.status);
+    //         console.log("POST request sent");
+    //         getUSD();
+    //         // getForEx();           
+    //     } 
+    // }
 
-//     xhr.open("POST", "http://localhost:3000/portfolio/?id=1");
-//     xhr.setRequestHeader('Content-Type', 'application/json');
-//     xhr.send(JSON.stringify(objJPY));
-//     // getForEx();  
+    // xhr.open("POST", "http://localhost:3000/portfolio/?id=1");
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify(objJPY));
+    // // getForEx();  
 
 // }
 

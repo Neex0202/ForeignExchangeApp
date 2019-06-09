@@ -4,6 +4,8 @@ let portfolio;
 
 window.onload = function () {
 
+    getForEx();
+
     var xhr = new XMLHttpRequest;
     xhr.onreadystatechange = function(portfolioData){
 
@@ -27,11 +29,16 @@ window.onload = function () {
             
             // EVENT LISTENERS FOR BUTTONS
             $("#buyJPY").on('click', buyJPY);
-
             $("#sellJPY").on('click', sellJPY);
 
+            $("#buyEUR").on('click', buyEUR);
+            $("#sellEUR").on('click', sellEUR);
+
+            $("#buyGBP").on('click', buyGBP);
+            $("#sellGBP").on('click', sellGBP);
+
             // GET Request to Exchange Rate API (might need to make request within window.onLoad function, not xhr.onreadystate)
-            getForEx();
+            
 
         }
     }
@@ -40,9 +47,30 @@ window.onload = function () {
     
 
 
-    // Event Listeners for Buttons
-//    $("#buyJPY").on("click", buyJPY)
 
+
+}
+
+
+// AJAX GET to Forex API + DOM Manipulation
+function getForEx() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            console.log('READY');
+            currencyData = JSON.parse(xhr.responseText);
+
+            // console.log(currencyDataJPY);
+            // DOM MANIPULATION
+            // console.log(currencyData.rates.JPY)
+            $("#jpyEx").html(currencyData.rates.JPY);
+            $("#eurEx").html(currencyData.rates.EUR);
+            $("#gbpEx").html(currencyData.rates.GBP);
+        } 
+
+    }
+    xhr.open("GET", "https://api.exchangeratesapi.io/latest?base=USD");
+    xhr.send();
 }
 
 
@@ -57,7 +85,7 @@ function buyJPY(){
 
     let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyJPYammountStr) * jpyExRate)).toFixed(2);
 
-    console.log('NEW JPY',newJPY);
+    console.log('NEW JPY = ' + newJPY);
 
     // AJAX Post or Put Request to forex.json
     // perform AJAX POST to forEx.json
@@ -66,7 +94,9 @@ function buyJPY(){
         usd: parseFloat(newUSD),
         jpy: parseFloat(newJPY),
         eur: parseFloat(lastEntry.eur),
-        gbp: parseFloat(lastEntry.gbp)
+        gbp: parseFloat(lastEntry.gbp),
+        time: new Date().getTime()
+
 
     }
     
@@ -95,14 +125,14 @@ function post(payload) {
 
 
             }
-            // console.log('buyJPY RESP', data.response);
-
+           
         } 
     }
 
     xhr.open("POST", "http://localhost:3000/portfolio");
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(payload));
+    clearInputFields()
 }
 
 function updateDOM(resp) {
@@ -136,50 +166,54 @@ function sellJPY(){
         usd: parseFloat(newUSD),
         jpy: parseFloat(newJPY),
         eur: parseFloat(lastEntry.eur),
-        gbp: parseFloat(lastEntry.gbp)
+        gbp: parseFloat(lastEntry.gbp),
+        time: new Date().getTime()
 
     }
     
     post(objJPY);
+
 }
 
 
 
-function getForEx() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            console.log('READY');
-            currencyData = JSON.parse(xhr.responseText);
 
-            // console.log(currencyDataJPY);
-            // DOM MANIPULATION
-            // console.log(currencyData.rates.JPY)
-            $("#jpyEx").html(currencyData.rates.JPY);
-            $("#eurEx").html(currencyData.rates.EUR);
-            $("#gbpEx").html(currencyData.rates.GBP);
-        } 
+function buyEUR(){
+    let buyEURammount = parseFloat($("#buyOrSellInputEUR").val());
+    console.log("buyEUR button clicked");
+    console.log("USD Spent = " + buyEURammount);
+    let eurExRate =  currencyData.rates.EUR;
+    console.log("USD => EUR = "+ eurExRate);
+    let newUSD = lastEntry.usd - buyEURammount;
+    console.log("New USD = " + newUSD);
 
-        // $("#buyJPY").on("click", buyJPY)
-        // $("#buyEUR").on("click", buyEUR)
-        // $("#buyGBP").on("click", buyGBP)
+    let newEUR = (parseFloat(lastEntry.eur) + parseFloat((buyEURammount) * eurExRate)).toFixed(2);
+
+    console.log('NEW JPY = ' + newEUR);
+
+    var objJPY = {
+        usd: parseFloat(newUSD),
+        jpy: parseFloat(lastEntry.jpy),
+        eur: parseFloat(newEUR),
+        gbp: parseFloat(lastEntry.gbp),
+        time: new Date().getTime()
+
+
     }
-    xhr.open("GET", "https://api.exchangeratesapi.io/latest?base=USD");
-    xhr.send();
+    
+    console.log('objJPY', objJPY);
+    post(objJPY);     
+
 }
 
 
-//
-//  exchange input
-//
-function exchangeInput(input) {
+function clearInputFields(){
 
-    //
-    //  
-    //
+    $('#buyOrSellInputJPY').val('');
+    $('#buyOrSellInputEUR').val('');
+    $('#buyOrSellInputGBP').val('');
+
 }
-
-
 
 
 

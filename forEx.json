@@ -7,54 +7,6 @@
       "eur": 0,
       "gbp": 0,
       "time": 0
-    },
-    {
-      "usd": 900,
-      "jpy": 10846.27,
-      "eur": 0,
-      "gbp": 0,
-      "time": "11:20:14 GMT-0400 (Eastern Daylight Time)",
-      "id": 2
-    },
-    {
-      "usd": 800,
-      "jpy": 10846.27,
-      "eur": 88.71,
-      "gbp": 0,
-      "time": "11:22:54 GMT-0400 (Eastern Daylight Time)",
-      "id": 3
-    },
-    {
-      "usd": 700,
-      "jpy": 10846.27,
-      "eur": 88.71,
-      "gbp": 78.66,
-      "time": "11:22:57 GMT-0400 (Eastern Daylight Time)",
-      "id": 4
-    },
-    {
-      "usd": 700.05,
-      "jpy": 10841.27,
-      "eur": "88.71",
-      "gbp": 78.66,
-      "time": "11:23:02 GMT-0400 (Eastern Daylight Time)",
-      "id": 5
-    },
-    {
-      "usd": 705.69,
-      "jpy": 10841.27,
-      "eur": 83.71,
-      "gbp": 78.66,
-      "time": "11:23:03 GMT-0400 (Eastern Daylight Time)",
-      "id": 6
-    },
-    {
-      "usd": 712.05,
-      "jpy": 10841.27,
-      "eur": 83.71,
-      "gbp": 73.66,
-      "time": "11:23:05 GMT-0400 (Eastern Daylight Time)",
-      "id": 7
     }
   ]
 }

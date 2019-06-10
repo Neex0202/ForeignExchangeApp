@@ -144,6 +144,8 @@ function updateDOM(resp) {
     $("#jpy").html('JPY ' + resp.jpy);
     $("#eur").html('EUR ' + resp.eur);
     $("#gbp").html('GBP ' + resp.gbp);
+
+    newExRate()
 }
 
 function sellJPY(){
@@ -300,41 +302,9 @@ function sellGBP(){
     }
  
     post(objJPY);
+    
  
  }
-
-// function sellGBP(){
-//     let sellGBPammount = parseFloat($("#buyOrSellInputEUR").val());
-//     // console.log(sellJPYammountStr);
-//     // console.log("sellJPY button clicked");
-    
-//     console.log("EUR sold = " + sellGBPammount);
-//     let gbpExRate =  currencyData.rates.GBP
-//     console.log("GBP => USD "+ gbpExRate);
-//     let newGBP = lastEntry.eur - sellGBPammount;
-
-//     console.log("New EUR = " + newGBP);
-//     // let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyGBPammount) * gbpExRate)).toFixed(2);
-//     let newUSD = (parseFloat(lastEntry.usd) + parseFloat((sellGBPammount) / gbpExRate)).toFixed(2);
-
-//     // AJAX Post or Put Request to forex.json
-//     // perform AJAX POST to forEx.json
-//     // update exchange
-//     var objJPY = {
-//         usd: parseFloat(newUSD),
-//         jpy: parseFloat(lastEntry.jpy),
-//         eur: parseFloat(lastEntry.eur),
-//         gbp: parseFloat(newGBP),
-//         time: new Date().getTime()
-
-//     }
-    
-//     post(objJPY);
-
-// }
-
-
-
 
 function clearInputFields(){
 
@@ -344,3 +314,10 @@ function clearInputFields(){
 
 }
 
+
+function newExRate(){
+
+           $("#jpyEx").html(currencyData.rates.JPY.toFixed(4));
+           $("#eurEx").html(currencyData.rates.EUR.toFixed(4));
+           $("#gbpEx").html(currencyData.rates.GBP.toFixed(4));
+}

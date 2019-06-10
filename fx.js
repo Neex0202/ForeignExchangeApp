@@ -145,7 +145,7 @@ function updateDOM(resp) {
     $("#eur").html('EUR ' + resp.eur);
     $("#gbp").html('GBP ' + resp.gbp);
 
-    newExRate()
+    newExRate();
 }
 
 function sellJPY(){
@@ -217,7 +217,7 @@ function sellEUR(){
     console.log("EUR sold = " + sellEURammount);
     let gbpExRate =  currencyData.rates.EUR
     console.log("EUR => USD "+ gbpExRate);
-    let newGBP = lastEntry.eur - sellEURammount;
+    let newGBP = (lastEntry.eur - sellEURammount).toFixed(2);
 
     console.log("New EUR = " + newGBP);
     // let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyGBPammount) * gbpExRate)).toFixed(2);
@@ -283,7 +283,7 @@ function sellGBP(){
     console.log("GBP sold = " + sellGBPammounts);
     let gbpExRate =  currencyData.rates.GBP
     console.log("GBP => USD "+ gbpExRate);
-    let newGBP = lastEntry.gbp - sellGBPammounts;
+    let newGBP = (lastEntry.gbp - sellGBPammounts).toFixed(2);
  
     console.log("New GBP = " + newGBP);
     // let newJPY = (parseFloat(lastEntry.jpy) + parseFloat((buyGBPammount) * gbpExRate)).toFixed(2);

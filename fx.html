@@ -21,53 +21,16 @@
 <body>
     <header>
         <div class="jumbotron">
-            <h1>Exchange Project</h1>
-            <div class="row">
-                <!-- column 1 -->
-                <div class="col-4">
-                    <div id="portfolioBalance">
-                        <div id="name">
-                            Hello!
+            <h1>Exchange Pocket</h1>
+            <div id="name">
+                            A foreign exchange converter and portfolio
                         </div>
-                        <div id="usd">  
-                            USD
-                        </div>
-                        <div id="jpy">
-                            JPY
-                        </div>
-                        <div id="eur">
-                            EUR
-                        </div>
-                        <div id="gbp">
-                            GBP
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-4">
-                    <div>
-                        <h3>jpyEx: <span id="jpyEx"></span></h3>
-                    </div>
-                    <div>
-                        <h3>eurEx: <span id="eurEx"></span></h3>
-                    </div>
-                    <div>
-                        <h3>gbpEx: <span id="gbpEx"></span></h3>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <input type="text" id="buyOrSellInputJPY" placeholder="buyOrSellInputJPY"
-                        class="form-control col-4">
-                    <button type="button" id="buyJPY" class="btn btn-success">Buy</button>
-                    <button type="button" id="sellJPY" class="btn btn-danger">Sell</button>
-                    <input type="text" id="buyOrSellInputEUR" placeholder="buyOrSellInputEUR"
-                        class="form-control col-4">
-                    <button type="button" id="buyEUR" class="btn btn-success">Buy</button>
-                    <button type="button" id="sellEUR" class="btn btn-danger">Sell</button>
-                    <input type="text" id="buyOrSellInputGBP" placeholder="buyOrSellInputGBP"
-                        class="form-control col-4">
-                    <button type="button" id="buyGBP" class="btn btn-success">Buy</button>
-                    <button type="button" id="sellGBP" class="btn btn-danger">Sell</button>
+                        <h2 id="usd">Balance USD($):</h2>
+                       
+
+                    
+                  
                 </div>
             </div>
 
@@ -75,6 +38,55 @@
 
     </header>
 
+<main>
+    <div id="portfolioBalance" class="jumbotron bg-white">
+        <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Protfolio</th>
+                <th scope="col">Ex Rate</th>
+                <th scope="col">Buy or Sell</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">JPY</th>
+                <td id="jpy"> (¥) </td>
+                <td> <span id="jpyEx"></span></td>
+                <td ><input type="text" id="buyOrSellInputJPY" placeholder="JPY"
+                    class="form-control col-4">
+                    <button type="button" id="buyJPY" class="btn btn-success">Buy</button>
+                    <button type="button" id="sellJPY" class="btn btn-danger">Sell</button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">EUR</th>
+                <td id="eur"> (€) </td>
+                <td><span id="eurEx"></span></td>
+                <td><input type="text" id="buyOrSellInputEUR" placeholder="EUR"
+                    class="form-control col-4">
+                <button type="button" id="buyEUR" class="btn btn-success">Buy</button>
+                <button type="button" id="sellEUR" class="btn btn-danger">Sell</button></td>
+              </tr>
+              <tr>
+                <th scope="row">GBP</th>
+                <td id="gbp">(£) </td>
+                <td><span id="gbpEx"></span></td>
+                <td>  <input type="text" id="buyOrSellInputGBP" placeholder="GBP"
+                    class="form-control col-4">
+                <button type="button" id="buyGBP" class="btn btn-success">Buy</button>
+                <button type="button" id="sellGBP" class="btn btn-danger">Sell</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+
+</main>
 
 
 
